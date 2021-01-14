@@ -51,7 +51,7 @@ class category_scraper():
         return newList
     
     def init_csv(self,category):
-        with open(category+'.csv', 'w', newline='') as file:
+        with open(category+'.csv', 'w',encoding="utf-8", newline='') as file:
             writer = csv.writer(file)
             
             writer.writerow(["product_page_url", "universal_ product_code (upc)", "title","product_description"
@@ -59,7 +59,7 @@ class category_scraper():
                              , "category", "review_rating", "image_url"])
     
     def csv_save(self,tab,category):
-        with open(category+'.csv', 'a', newline='') as file:
+        with open(category+'.csv', 'a',encoding="utf-8", newline='') as file:
             writer = csv.writer(file)
             writer.writerow(tab)
     

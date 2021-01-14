@@ -66,7 +66,7 @@ class page_scraper():
         
     def csv_save(self):
     
-        with open('testing.csv', 'w', newline='') as file:
+        with open('testing.csv', 'w',encoding="utf-8", newline='') as file:
             writer = csv.writer(file)
             
             writer.writerow(["product_page_url", "universal_ product_code (upc)", "title","product_description"

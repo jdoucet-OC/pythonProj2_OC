@@ -11,28 +11,28 @@ class page_scraper():
     
     def __init__(self,link_page):
         #Lien, titre et preparation soupe
-        self.link=link_page
+        self.link = link_page
         
         page = requests.get(self.link)
         soup = BeautifulSoup(page.content, 'html.parser')
         
         findTitle=soup.find(class_='col-sm-6 product_main')
-        self.title=findTitle.find('h1').text
+        self.title = findTitle.find('h1').text
         #trouver le paragraph description qui n'a pas de classe
-        self.description=soup.find('p',class_='').getText()
+        self.description = soup.find('p',class_='').getText()
         
         #ittération du tableau des prix
-        attrTab=[]
-        tempTab=soup.find('table',class_='table table-striped')
-        tempTab2=tempTab.findAll('td')
+        attrTab = []
+        tempTab = soup.find('table',class_='table table-striped')
+        tempTab2 = tempTab.findAll('td')
         
         for attr in tempTab2:
             attrTab.append(attr.text)
             
-        self.UPC=attrTab[0]
-        self.priceNT=attrTab[2]
-        self.priceWT=attrTab[3]
-        self.numberAvailable=attrTab[5]
+        self.UPC = attrTab[0]
+        self.priceNT = attrTab[2]
+        self.priceWT = attrTab[3]
+        self.numberAvailable = attrTab[5]
         
         #image_url, review rating and category
         categorySoup=soup.find('ul',class_='breadcrumb')
@@ -41,20 +41,20 @@ class page_scraper():
         #chercher dans col-sm-6 product_main le nom de la classe contenant les étoiles
         results=soup.find('div',class_='col-sm-6 product_main')
         if results.find('p',class_="star-rating One"):
-            self.rating="1/5"
+            self.rating = "1/5"
         if results.find('p',class_="star-rating Two"):
-            self.rating="2/5"
+            self.rating = "2/5"
         if results.find('p',class_="star-rating Three"):
-            self.rating="3/5"
+            self.rating = "3/5"
         if results.find('p',class_="star-rating Four"):
-            self.rating="4/5"
+            self.rating = "4/5"
         if results.find('p',class_="star-rating Five"):#else
-            self.rating="5/5"
+            self.rating = "5/5"
             
         #Image
-        image_container=soup.find('div',class_='carousel-inner')
+        image_container = soup.find('div',class_='carousel-inner')
         
-        self.image_url=self.relative_to_absolute(image_container.find('img')['src'])
+        self.image_url = self.relative_to_absolute(image_container.find('img')['src'])
         
         
         
@@ -79,18 +79,18 @@ class page_scraper():
                               self.rating,self.image_url])
     
     def relative_to_absolute(self,imgLink):
-        splittedLink=self.link.split('/')
-        splittedImgLink=imgLink.split('/')
-        retour=imgLink.count('../')
+        splittedLink = self.link.split('/')
+        splittedImgLink = imgLink.split('/')
+        retour = imgLink.count('../')
         del splittedImgLink[:retour]
         del splittedLink[-retour-1:]
-        sep='/'
+        sep = '/'
         return sep.join(splittedLink+splittedImgLink)
             
     
 def main(argv):
     
-    new_page=page_scraper(argv[0])
+    new_page = page_scraper(argv[0])
     new_page.csv_save()
     
     

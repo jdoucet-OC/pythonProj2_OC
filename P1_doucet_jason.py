@@ -19,8 +19,10 @@ class page_scraper():
         findTitle=soup.find(class_='col-sm-6 product_main')
         self.title = findTitle.find('h1').text
         #trouver le paragraph description qui n'a pas de classe
-        self.description = soup.find('p',class_='').getText()
-        
+        try:
+            self.description = soup.find('p',class_='').text
+        except AttributeError:
+            self.description=""
         #ittération du tableau des prix
         attrTab = []
         tempTab = soup.find('table',class_='table table-striped')

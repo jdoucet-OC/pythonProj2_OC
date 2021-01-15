@@ -18,4 +18,3 @@ for link in all_csv_files:
     local_links=(df["image_url"])
     for item in local_links:
         urllib.request.urlretrieve(item, 'images\\'+item.split('/')[-1])
-        print('oui')

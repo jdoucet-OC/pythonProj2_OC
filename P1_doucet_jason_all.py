@@ -1,33 +1,21 @@
 # -*- coding: utf-8 -*-
-from P1_doucet_jason_cat import category_scraper
-import sys
+from P1_doucet_jason_cat import CategoryScraper
 import requests
 from bs4 import BeautifulSoup
 
 
-class entire_site_scraper():
-    
-    def __init__(self):
-        self.link = "http://books.toscrape.com/"
-        page = requests.get(self.link)
-        soup = BeautifulSoup(page.content, 'html.parser')
-        soup2 = soup.find('ul',class_='nav nav-list')
-        soup3 = soup2.findAll('a')
-        linkList = []
-        for item in soup3:
-            linkList.append(self.link+item["href"])
-        #retirer la catégorie " Book " qui contient tous les livres
-        linkList.pop(0)
-        for links in linkList:
-            category_scraper(links)
-        
-            
-    
-    
-        
-        
 def main():
-    entire_site_scraper()
+    link = "http://books.toscrape.com/"
+    soup = BeautifulSoup(requests.get(link).content, 'html.parser')
+    soup2 = soup.find('ul', class_='nav nav-list')
+    soup3 = soup2.findAll('a')
+    linklist = []
+    for item in soup3:
+        linklist.append(link + item["href"])
+    linklist.pop(0)
+    for links in linklist:
+        cat_scraper = CategoryScraper(links)
+        cat_scraper.get_all_pages()
     
     
 if __name__ == "__main__":

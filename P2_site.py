@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from P1_doucet_jason_cat import CategoryScraper
+from P2_category import CategoryScraper
 import requests
 from bs4 import BeautifulSoup
 

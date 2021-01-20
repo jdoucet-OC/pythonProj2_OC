@@ -3,7 +3,7 @@
 
 import sys
 import os
-from P1_doucet_jason import PageScraper
+from P2_book import PageScraper
 import requests
 import P2_csv
 from bs4 import BeautifulSoup

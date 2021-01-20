@@ -3,6 +3,7 @@ import sys
 import P2_csv
 import requests
 from bs4 import BeautifulSoup
+import misc_funcs
 
 
 class PageScraper:
@@ -70,20 +71,12 @@ class PageScraper:
 
     def get_img_link(self):
         image_container = self.soup.find('div', class_='carousel-inner')
-        return self.relative_to_absolute(image_container.find('img')['src'])
-
-    def relative_to_absolute(self, imglink):
-        splittedLink = self.link.split('/')
-        splittedImgLink = imglink.split('/')
-        retour = imglink.count('../')
-        del splittedImgLink[:retour]
-        del splittedLink[-retour-1:]
-        sep = '/'
-        return sep.join(splittedLink+splittedImgLink)
+        return str(misc_funcs.relative_to_absolute(self.link, image_container.find('img')['src']))
             
     
 def main(argv):
     new_page = PageScraper(argv[0])
+    print(new_page.get_all())
     P2_csv.book_csv_init(new_page.title, new_page.get_all())
     
     

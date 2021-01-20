@@ -2,11 +2,11 @@
 
 
 import sys
-import os
-from P1_doucet_jason import PageScraper
 import requests
-import P2_csv
 from bs4 import BeautifulSoup
+import P1_doucet_jason as P1book
+import P2_csv
+import misc_funcs
 
 
 class CategoryScraper:
@@ -20,15 +20,15 @@ class CategoryScraper:
         ii = 2
         current_soup = self.firstSoup
         current_link = self.firstLink
-        P2_csv.init_csv(self.cat)
+        P2_csv.csv_init(self.cat)
         while True:
             linksoup = current_soup.findAll('li', class_="col-xs-6 col-sm-4 col-md-3 col-lg-3")
             linklist = []
             for liste in linksoup:
                 linklist.append(liste.find('a')["href"])
-            linklist = self.relative_to_absolute(linklist, current_link)
+            linklist = misc_funcs.relative_to_absolute(linklist, current_link)
             for item in linklist:
-                page_obj = PageScraper(item)
+                page_obj = P1book.PageScraper(item)
                 attrs = page_obj.get_all()
                 print('En cours :', attrs[2], '\n')
                 P2_csv.csv_save(attrs, self.cat)
@@ -42,18 +42,6 @@ class CategoryScraper:
             else:
                 break
 
-    def relative_to_absolute(self, liste, link):
-        newlist = []
-        for elem in liste:
-            splittedlink = link.split('/')
-            retour = elem.count('../')
-            splitted = elem.split('/')
-            del splitted[:retour]
-            del splittedlink[-retour-1:]
-            sep = '/'
-            newlist.append(sep.join(splittedlink+splitted))
-        return newlist
-    
     
 def main(argv):
     new_cat = CategoryScraper(argv[0])
@@ -62,4 +50,3 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
-

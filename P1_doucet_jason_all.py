@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from P1_doucet_jason_cat import CategoryScraper
+import P1_doucet_jason_cat as P1cat
 import requests
 from bs4 import BeautifulSoup
 
@@ -14,7 +14,7 @@ def main():
         linklist.append(link + item["href"])
     linklist.pop(0)
     for links in linklist:
-        cat_scraper = CategoryScraper(links)
+        cat_scraper = P1cat.CategoryScraper(links)
         cat_scraper.get_all_pages()
     
     

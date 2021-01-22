@@ -20,13 +20,13 @@ class CategoryScraper:
         ii = 2
         current_soup = self.firstSoup
         current_link = self.firstLink
-        P2_csv.init_csv(self.cat)
+        P2_csv.csv_init(self.cat)
         while True:
             linksoup = current_soup.findAll('li', class_="col-xs-6 col-sm-4 col-md-3 col-lg-3")
             linklist = []
             for liste in linksoup:
                 linklist.append(liste.find('a')["href"])
-            linklist = miscFuncs.relative_to_absolute(linklist, current_link)
+            linklist = miscFuncs.relative_to_absolute_list(linklist, current_link)
             for item in linklist:
                 page_obj = bookScraper.PageScraper(item)
                 attrs = page_obj.get_all()

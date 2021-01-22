@@ -9,19 +9,29 @@ from bs4 import BeautifulSoup
 
 
 class CategoryScraper:
-    
+    """une catégorie de livre"""
     def __init__(self, link_page):
+        """
+        :param link_page: Lien de la catégorie à scrape
+        """
         self.firstLink = link_page
-        self.firstSoup = BeautifulSoup(requests.get(self.firstLink).content, 'html.parser')
-        self.cat = self.firstSoup.find('div', class_="page-header action").find('h1').text
+        self.firstSoup = BeautifulSoup(requests.get(self.firstLink).content,
+                                       'html.parser')
+        self.cat = self.firstSoup.find('div',
+                                       class_="page-header action").find('h1').text
 
     def get_all_pages(self):
+        """Ecrit dans un fichier CSV les informations
+        de tous les livres de la catégorie (attr: cat)
+        dans un fichier csv : /category/<category.csv>
+        """
         ii = 2
         current_soup = self.firstSoup
         current_link = self.firstLink
         CsvEdit.csv_init(self.cat)
         while True:
-            linksoup = current_soup.findAll('li', class_="col-xs-6 col-sm-4 col-md-3 col-lg-3")
+            linksoup = current_soup.findAll('li',
+                                            class_="col-xs-6 col-sm-4 col-md-3 col-lg-3")
             linklist = []
             for liste in linksoup:
                 linklist.append(liste.find('a')["href"])
@@ -43,6 +53,11 @@ class CategoryScraper:
     
     
 def main(argv):
+    """
+    :param argv: Lien de la catégorie à scrape
+    :return: Utilise la méthode_get all_pages pour écrire
+    le fichier CSV
+    """
     new_cat = CategoryScraper(argv[0])
     new_cat.get_all_pages()
 

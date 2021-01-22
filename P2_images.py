@@ -7,8 +7,17 @@ import urllib.request
 
 
 def main():
+    """
+    :return: toutes les images de livre du site dans
+        /images/<image>.jpg
+    """
     path = os.getcwd()
     ext = "*.csv"
+
+    """Parcours le current working directory
+    pour trouver les fichiers CSV et les stocker
+    dans la liste all_csv_files
+    """
     all_csv_files = [file
                      for path, subdir, files in os.walk(path)
                      for file in glob(os.path.join(path, ext))

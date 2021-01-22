@@ -10,7 +10,8 @@ def main():
     ext = "*.csv"
     all_csv_files = [file
                      for path, subdir, files in os.walk(path)
-                     for file in glob(os.path.join(path, ext))]
+                     for file in glob(os.path.join(path, ext))
+                     if 'category' in path]
 
     col_list = ["product_page_url", "universal_ product_code (upc)", "title", "product_description",
                 "price_including_tax", "price_excluding_tax", "number_available",
@@ -23,7 +24,7 @@ def main():
         local_links = (df["image_url"])
         for item in local_links:
             urllib.request.urlretrieve(item, 'images/'+item.split('/')[-1])
-            print('Image '+str(ii)+'/500')
+            print('Image '+str(ii)+'/1000')
             ii += 1
 
 

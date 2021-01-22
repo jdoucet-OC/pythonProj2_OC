@@ -71,7 +71,7 @@ class PageScraper:
 
     def get_img_link(self):
         image_container = self.soup.find('div', class_='carousel-inner')
-        return miscFuncs.relative_to_absolute(image_container.find('img')['src'])
+        return miscFuncs.relative_to_absolute(self.link, image_container.find('img')['src'])
             
     
 def main(argv):

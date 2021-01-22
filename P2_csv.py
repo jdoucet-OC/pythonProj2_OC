@@ -5,6 +5,11 @@ import re
 
 
 def book_csv_init(book, tab):
+    """
+    :param book: Titre du livre
+    :param tab: Tableau des attributs du livre
+    :return:Créer et édite le fichier CSV du livre
+    """
     if not os.path.exists('books'):
         os.makedirs('books')
     title = re.sub(r'[^A-Za-z0-9]', ' ', book)
@@ -21,6 +26,11 @@ def book_csv_init(book, tab):
 
 
 def csv_init(category):
+    """
+    :param category: catégorie du livre
+    :return: créé un fichier CSV de la catégorie, avec
+        ses entêtes
+    """
     if not os.path.exists('category'):
         os.makedirs('category')
     with open('category/' + category + '.csv', 'w', encoding="utf-8", newline='') as file:
@@ -33,6 +43,12 @@ def csv_init(category):
 
 
 def csv_save(tab, category):
+    """
+    :param tab: tableau des attributs du livre
+    :param category: catégorie du livre permettant de trouver
+        le bon fichier CSV
+    :return: édite le fichier CSV de la catégorie
+    """
     with open('category/' + category + '.csv', 'a', encoding="utf-8", newline='') as file:
         writer = csv.writer(file)
         writer.writerow(tab)

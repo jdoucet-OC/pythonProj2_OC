@@ -10,6 +10,7 @@ def main():
     :return: Toute les catégories du site, un
         fichier CSV par catégorie
     """
+
     link = "http://books.toscrape.com/"
     soup = BeautifulSoup(requests.get(link).content, 'html.parser')
     soup2 = soup.find('ul', class_='nav nav-list')

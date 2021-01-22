@@ -4,6 +4,7 @@ def relative_to_absolute(link, imglink):
     :param imglink: Lien de l'image incomplet
     :return: Le lien de l'image complète
     """
+
     splittedlink = link.split('/')
     splittedimglink = imglink.split('/')
     retour = imglink.count('../')
@@ -21,6 +22,7 @@ def relative_to_absolute_list(liste, link):
     :return: Liste des liens complet de la page n
         de la catégorie
     """
+
     newlist = []
     for elem in liste:
         splittedlink = link.split('/')

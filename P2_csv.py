@@ -10,6 +10,7 @@ def book_csv_init(book, tab):
     :param tab: Tableau des attributs du livre
     :return:Créer et édite le fichier CSV du livre
     """
+
     if not os.path.exists('books'):
         os.makedirs('books')
     title = re.sub(r'[^A-Za-z0-9]', ' ', book)
@@ -31,6 +32,7 @@ def csv_init(category):
     :return: créé un fichier CSV de la catégorie, avec
         ses entêtes
     """
+
     if not os.path.exists('category'):
         os.makedirs('category')
     with open('category/' + category + '.csv', 'w', encoding="utf-8", newline='') as file:

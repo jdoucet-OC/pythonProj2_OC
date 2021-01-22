@@ -1,6 +1,7 @@
-# -*- coding: utf-8 -*-
-from P2_category import CategoryScraper
+#!/usr/bin/env python3
+
 import requests
+import P2_category
 from bs4 import BeautifulSoup
 
 
@@ -14,7 +15,7 @@ def main():
         linklist.append(link + item["href"])
     linklist.pop(0)
     for links in linklist:
-        cat_scraper = CategoryScraper(links)
+        cat_scraper = P2_category.CategoryScraper(links)
         cat_scraper.get_all_pages()
     
     

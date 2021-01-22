@@ -1,8 +1,9 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 import sys
-import P2_csv
-import P2_misc_funcs as miscFuncs
 import requests
+import P2_csv as CsvEdit
+import P2_misc_funcs as miscFuncs
 from bs4 import BeautifulSoup
 
 
@@ -76,7 +77,7 @@ class PageScraper:
     
 def main(argv):
     new_page = PageScraper(argv[0])
-    P2_csv.book_csv_init(new_page.title, new_page.get_all())
+    CsvEdit.book_csv_init(new_page.title, new_page.get_all())
     
     
 if __name__ == "__main__":

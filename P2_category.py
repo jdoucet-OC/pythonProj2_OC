@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
-
+#!/usr/bin/env python3
 
 import sys
-import P2_book as bookScraper
-import P2_misc_funcs as miscFuncs
 import requests
-import P2_csv
+import P2_book as BookScraper
+import P2_misc_funcs as MiscFuncs
+import P2_csv as CsvEdit
 from bs4 import BeautifulSoup
 
 
@@ -20,18 +19,18 @@ class CategoryScraper:
         ii = 2
         current_soup = self.firstSoup
         current_link = self.firstLink
-        P2_csv.csv_init(self.cat)
+        CsvEdit.csv_init(self.cat)
         while True:
             linksoup = current_soup.findAll('li', class_="col-xs-6 col-sm-4 col-md-3 col-lg-3")
             linklist = []
             for liste in linksoup:
                 linklist.append(liste.find('a')["href"])
-            linklist = miscFuncs.relative_to_absolute_list(linklist, current_link)
+            linklist = MiscFuncs.relative_to_absolute_list(linklist, current_link)
             for item in linklist:
-                page_obj = bookScraper.PageScraper(item)
+                page_obj = BookScraper.PageScraper(item)
                 attrs = page_obj.get_all()
                 print('En cours :', attrs[2], '\n')
-                P2_csv.csv_save(attrs, self.cat)
+                CsvEdit.csv_save(attrs, self.cat)
             if current_soup.find('li', class_='next'):
                 tablink = current_link.split('/')
                 tablink[-1] = 'page-' + str(ii) + '.html'

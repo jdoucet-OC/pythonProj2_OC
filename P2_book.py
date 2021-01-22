@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import P2_csv
+import P2_misc_funcs as miscFuncs
 import requests
 from bs4 import BeautifulSoup
 
@@ -70,16 +71,7 @@ class PageScraper:
 
     def get_img_link(self):
         image_container = self.soup.find('div', class_='carousel-inner')
-        return self.relative_to_absolute(image_container.find('img')['src'])
-
-    def relative_to_absolute(self, imglink):
-        splittedLink = self.link.split('/')
-        splittedImgLink = imglink.split('/')
-        retour = imglink.count('../')
-        del splittedImgLink[:retour]
-        del splittedLink[-retour-1:]
-        sep = '/'
-        return sep.join(splittedLink+splittedImgLink)
+        return miscFuncs.relative_to_absolute(image_container.find('img')['src'])
             
     
 def main(argv):

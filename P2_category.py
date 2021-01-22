@@ -2,8 +2,8 @@
 
 
 import sys
-import os
-from P2_book import PageScraper
+import P2_book as bookScraper
+import P2_misc_funcs as miscFuncs
 import requests
 import P2_csv
 from bs4 import BeautifulSoup
@@ -26,9 +26,9 @@ class CategoryScraper:
             linklist = []
             for liste in linksoup:
                 linklist.append(liste.find('a')["href"])
-            linklist = self.relative_to_absolute(linklist, current_link)
+            linklist = miscFuncs.relative_to_absolute(linklist, current_link)
             for item in linklist:
-                page_obj = PageScraper(item)
+                page_obj = bookScraper.PageScraper(item)
                 attrs = page_obj.get_all()
                 print('En cours :', attrs[2], '\n')
                 P2_csv.csv_save(attrs, self.cat)
@@ -41,18 +41,6 @@ class CategoryScraper:
                 ii += 1
             else:
                 break
-
-    def relative_to_absolute(self, liste, link):
-        newlist = []
-        for elem in liste:
-            splittedlink = link.split('/')
-            retour = elem.count('../')
-            splitted = elem.split('/')
-            del splitted[:retour]
-            del splittedlink[-retour-1:]
-            sep = '/'
-            newlist.append(sep.join(splittedlink+splitted))
-        return newlist
     
     
 def main(argv):

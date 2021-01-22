@@ -11,7 +11,7 @@ class PageScraper:
     """un livre"""
     def __init__(self, link_page):
         """
-        :param link_page(str): Lien du livre à scrape
+        :param link_page: Lien du livre à scrape
         """
         self.link = link_page
         self.soup = BeautifulSoup(requests.get(link_page).content, 'html.parser')
@@ -27,14 +27,14 @@ class PageScraper:
 
     def find_title(self):
         """
-        :return(str): Le titre du livre
+        :return: Le titre du livre
         """
         title = self.soup.find(class_='col-sm-6 product_main')
         return title.find('h1').text
 
     def find_desc(self):
         """
-        :return(str): La description du livre, si pas de description
+        :return: La description du livre, si pas de description
             retourne " Aucune description "
         """
         try:
@@ -44,7 +44,7 @@ class PageScraper:
 
     def find_tab_attrs(self):
         """
-        :return(tuple): dans l'ordre - L'UPC, le prix hors taxe,
+        :return: dans l'ordre - L'UPC, le prix hors taxe,
             le prix avec taxe et le nombre de livre disponible
         """
         attrtab = []
@@ -63,14 +63,14 @@ class PageScraper:
 
     def get_category(self):
         """
-        :return(str): La catégorie (thème) du livre
+        :return: La catégorie (thème) du livre
         """
         categorysoup = self.soup.find('ul', class_='breadcrumb')
         return categorysoup.findAll('a')[2].text
 
     def get_all(self):
         """
-        :return(list): Tous les attributs dans une liste
+        :return: Tous les attributs dans une liste
         """
         return [self.link, self.UPC, self.title,
                 self.description, self.priceNT, self.priceWT,
@@ -79,7 +79,7 @@ class PageScraper:
 
     def get_rating(self):
         """
-        :return(str): Vérifie quelle classe HTML est présente,
+        :return: Vérifie quelle classe HTML est présente,
             la note sur 5 correspond la classe trouvée.
         """
         results = self.soup.find('div', class_='col-sm-6 product_main')
@@ -96,7 +96,7 @@ class PageScraper:
 
     def get_img_link(self):
         """
-        :return(str): le lien de l'image
+        :return: le lien de l'image
         """
         image_container = self.soup.find('div', class_='carousel-inner')
         return miscFuncs.relative_to_absolute(self.link, image_container.find('img')['src'])

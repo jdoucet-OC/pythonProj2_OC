@@ -33,8 +33,8 @@ class CategoryScraper:
         current_link = self.firstLink
         CsvEdit.csv_init(self.cat)
         while True:
-            linksoup = current_soup.findAll('li',
-                                            class_="col-xs-6 col-sm-4 col-md-3 col-lg-3")
+            linksoup = current_soup.find_all('li',
+                                             class_="col-xs-6 col-sm-4 col-md-3 col-lg-3")
             linklist = []
             for liste in linksoup:
                 linklist.append(liste.find('a')["href"])
@@ -46,7 +46,7 @@ class CategoryScraper:
                 CsvEdit.csv_save(attrs, self.cat)
             if current_soup.find('li', class_='next'):
                 tablink = current_link.split('/')
-                tablink[-1] = 'page-' + str(ii) + '.html'
+                tablink[-1] = f'page-{str(ii)}.html'
                 sep = '/'
                 current_link = sep.join(tablink)
                 current_soup = BeautifulSoup(requests.get(current_link).content, 'html.parser')

@@ -14,7 +14,7 @@ def main():
     link = "http://books.toscrape.com/"
     soup = BeautifulSoup(requests.get(link).content, 'html.parser')
     soup2 = soup.find('ul', class_='nav nav-list')
-    soup3 = soup2.findAll('a')
+    soup3 = soup2.find_all('a')
     linklist = []
     for item in soup3:
         linklist.append(link + item["href"])

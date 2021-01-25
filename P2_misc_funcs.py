@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def relative_to_absolute(link, imglink):
     """
     :param link: Lien du site complet

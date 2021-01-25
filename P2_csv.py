@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 import os
 import csv
@@ -14,7 +15,7 @@ def book_csv_init(book, tab):
     if not os.path.exists('books'):
         os.makedirs('books')
     title = re.sub(r'[^A-Za-z0-9]', ' ', book)
-    with open('books/'+title + '.csv', 'w', encoding="utf-8", newline='') as file:
+    with open(f'books/{title}.csv', 'w', encoding="utf-8", newline='') as file:
         fields = ["product_page_url", "universal_ product_code (upc)", "title",
                   "product_description", "price_including_tax", "price_excluding_tax",
                   "number_available", "category", "review_rating", "image_url"]
@@ -35,7 +36,7 @@ def csv_init(category):
 
     if not os.path.exists('category'):
         os.makedirs('category')
-    with open('category/' + category + '.csv', 'w', encoding="utf-8", newline='') as file:
+    with open(f'category/{category}.csv', 'w', encoding="utf-8", newline='') as file:
         writer = csv.DictWriter(
             file, fieldnames=["product_page_url", "universal_ product_code (upc)", "title",
                               "product_description", "price_including_tax", "price_excluding_tax",
@@ -51,6 +52,6 @@ def csv_save(tab, category):
         le bon fichier CSV
     :return: édite le fichier CSV de la catégorie
     """
-    with open('category/' + category + '.csv', 'a', encoding="utf-8", newline='') as file:
+    with open(f'category/{category}.csv', 'a', encoding="utf-8", newline='') as file:
         writer = csv.writer(file)
         writer.writerow(tab)

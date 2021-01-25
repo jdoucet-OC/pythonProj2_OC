@@ -29,8 +29,8 @@ def main():
         df = pd.read_csv(link, usecols=col_list)
         local_links = (df["image_url"])
         for item in local_links:
-            urllib.request.urlretrieve(item, 'images/'+item.split('/')[-1])
-            print('Image '+str(ii)+'/1000')
+            urllib.request.urlretrieve(item, f"images/{item.split('/')[-1]}")
+            print(f'Image {str(ii)}/1000')
             ii += 1
 
 

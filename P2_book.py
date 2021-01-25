@@ -54,7 +54,7 @@ class PageScraper:
 
         attrtab = []
         temptab = self.soup.find('table', class_='table table-striped')
-        temptab2 = temptab.findAll('td')
+        temptab2 = temptab.find_all('td')
 
         for attr in temptab2:
             attrtab.append(attr.text)
@@ -72,7 +72,7 @@ class PageScraper:
         """
 
         categorysoup = self.soup.find('ul', class_='breadcrumb')
-        return categorysoup.findAll('a')[2].text
+        return categorysoup.find_all('a')[2].text
 
     def get_all(self):
         """

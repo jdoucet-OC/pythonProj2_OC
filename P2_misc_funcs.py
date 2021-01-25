@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import requests
+from bs4 import BeautifulSoup
+
 
 def relative_to_absolute(link, imglink):
     """
@@ -35,3 +38,18 @@ def relative_to_absolute_list(liste, link):
         sep = '/'
         newlist.append(sep.join(splittedlink + splitted))
     return newlist
+
+
+def get_soup(link):
+    """
+    :param link: Lien de la page du site web
+    :return: Objet BeautifulSoup de la page
+        ( HTML de la page )
+    """
+    webpage = requests.get(link)
+    webpage.raise_for_status()
+    soupe = BeautifulSoup(webpage.content, 'html.parser')
+    return soupe
+
+
+

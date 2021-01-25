@@ -16,7 +16,7 @@ class PageScraper:
         """
 
         self.link = link_page
-        self.soup = BeautifulSoup(requests.get(link_page).content, 'html.parser')
+        self.soup = miscFuncs.get_soup(link_page)
         self.title = self.find_title()
         self.description = self.find_desc()
         self.UPC,\
@@ -118,8 +118,12 @@ def main(argv):
     Ecrit toutes les informations du livre dans un fichier
     CSV : /books/<titrelivre.csv>
     """
-
-    new_page = PageScraper(argv[0])
+    try:
+        page = argv[0]
+    except IndexError:
+        print("Vous devez spécifier un lien sur http://bookstoscrap.com")
+        sys.exit(1)
+    new_page = PageScraper(page)
     CsvEdit.book_csv_init(new_page.title, new_page.get_all())
     
     

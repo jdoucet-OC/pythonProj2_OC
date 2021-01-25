@@ -17,8 +17,7 @@ class CategoryScraper:
         """
 
         self.firstLink = link_page
-        self.firstSoup = BeautifulSoup(requests.get(self.firstLink).content,
-                                       'html.parser')
+        self.firstSoup = MiscFuncs.get_soup(link_page)
         self.cat = self.firstSoup.find('div',
                                        class_="page-header action").find('h1').text
 
@@ -42,7 +41,7 @@ class CategoryScraper:
             for item in linklist:
                 page_obj = BookScraper.PageScraper(item)
                 attrs = page_obj.get_all()
-                print('En cours :', attrs[2], '\n')
+                print(f'En cours :{attrs[2]}')
                 CsvEdit.csv_save(attrs, self.cat)
             if current_soup.find('li', class_='next'):
                 tablink = current_link.split('/')
@@ -64,6 +63,7 @@ def main(argv):
 
     new_cat = CategoryScraper(argv[0])
     new_cat.get_all_pages()
+
 
 
 if __name__ == "__main__":

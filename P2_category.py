@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
 import sys
-import requests
 import P2_book as BookScraper
 import P2_misc_funcs as MiscFuncs
 import P2_csv as CsvEdit
-from bs4 import BeautifulSoup
 
 
 class CategoryScraper:
@@ -17,10 +15,16 @@ class CategoryScraper:
         """
 
         self.firstLink = link_page
-        self.firstSoup = BeautifulSoup(requests.get(self.firstLink).content,
-                                       'html.parser')
-        self.cat = self.firstSoup.find('div',
-                                       class_="page-header action").find('h1').text
+        self.firstSoup = MiscFuncs.get_cat_soup(link_page)
+        self.cat = self.find_cat()
+
+    def find_cat(self):
+        """
+        :return: Le nom de la catégorie à scrape
+        """
+        cat = self.firstSoup.find('div', class_="page-header action").\
+            find('h1').text
+        return cat
 
     def get_all_pages(self):
         """Ecrit dans un fichier CSV les informations
@@ -34,7 +38,8 @@ class CategoryScraper:
         CsvEdit.csv_init(self.cat)
         while True:
             linksoup = current_soup.find_all('li',
-                                             class_="col-xs-6 col-sm-4 col-md-3 col-lg-3")
+                                             class_="col-xs-6 col-sm-4 "
+                                                    "col-md-3 col-lg-3")
             linklist = []
             for liste in linksoup:
                 linklist.append(liste.find('a')["href"])
@@ -42,14 +47,14 @@ class CategoryScraper:
             for item in linklist:
                 page_obj = BookScraper.PageScraper(item)
                 attrs = page_obj.get_all()
-                print('En cours :', attrs[2], '\n')
+                print(f'En cours : {attrs[2]}')
                 CsvEdit.csv_save(attrs, self.cat)
             if current_soup.find('li', class_='next'):
                 tablink = current_link.split('/')
                 tablink[-1] = f'page-{str(ii)}.html'
                 sep = '/'
                 current_link = sep.join(tablink)
-                current_soup = BeautifulSoup(requests.get(current_link).content, 'html.parser')
+                current_soup = MiscFuncs.get_cat_soup(current_link)
                 ii += 1
             else:
                 break
@@ -61,8 +66,13 @@ def main(argv):
     :return: Utilise la méthode_get all_pages pour écrire
     le fichier CSV
     """
-
-    new_cat = CategoryScraper(argv[0])
+    try:
+        category = argv[0]
+    except IndexError:
+        print("Vous devez spécifier un lien de catégorie"
+              " sur http://books.toscrape.com")
+        sys.exit(1)
+    new_cat = CategoryScraper(category)
     new_cat.get_all_pages()
 
 

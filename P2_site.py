@@ -2,6 +2,7 @@
 
 import requests
 import P2_category
+import P2_misc_funcs as MiscFuncs
 from bs4 import BeautifulSoup
 
 
@@ -12,7 +13,7 @@ def main():
     """
 
     link = "http://books.toscrape.com/"
-    soup = BeautifulSoup(requests.get(link).content, 'html.parser')
+    soup = MiscFuncs.get_soup(link)
     soup2 = soup.find('ul', class_='nav nav-list')
     soup3 = soup2.find_all('a')
     linklist = []
@@ -22,6 +23,7 @@ def main():
     for links in linklist:
         cat_scraper = P2_category.CategoryScraper(links)
         cat_scraper.get_all_pages()
+        print(f'{cat_scraper.cat} : Done!\n ')
     
     
 if __name__ == "__main__":

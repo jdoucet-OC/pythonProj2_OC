@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+import requests
+import sys
+from bs4 import BeautifulSoup
+
 
 def relative_to_absolute(link, imglink):
     """
@@ -35,3 +39,46 @@ def relative_to_absolute_list(liste, link):
         sep = '/'
         newlist.append(sep.join(splittedlink + splitted))
     return newlist
+
+
+def get_book_soup(link):
+    """
+    :param link: Lien de la page du livre
+    :return: Objet BeautifulSoup de la page
+        ( HTML de la page )
+    """
+    webpage = requests.get(link)
+    webpage.raise_for_status()
+    soupe = BeautifulSoup(webpage.content, 'html.parser')
+    try:
+        titlesoupe = soupe.find(class_='col-sm-6 product_main')
+        titlesoupe.find('h1').text
+    except AttributeError:
+        print('Lien vers livre invalide, veuillez choisir un livre sur'
+              ' http://books.toscrape.com/index.html et copiez le lien'
+              ' tel que : python P2_book.py <lienLivre>')
+        sys.exit(0)
+    return soupe
+
+
+def get_cat_soup(link):
+    """
+    :param link: Lien de la page de la catégorie
+    :return: Objet BeautifulSoup de la page
+        ( HTML de la page )
+    """
+    webpage = requests.get(link)
+    webpage.raise_for_status()
+    soupe = BeautifulSoup(webpage.content, 'html.parser')
+    try:
+        soupe.find('div', class_="page-header action").find('h1').text
+    except AttributeError:
+        print('Lien vers catégorie invalide, veuillez choisir une '
+              ' catégorie sur http://books.toscrape.com/index.html'
+              ' et copiez le lien tel que : '
+              ' python P2_book.py <lienCategory>')
+        sys.exit(0)
+    return soupe
+
+
+

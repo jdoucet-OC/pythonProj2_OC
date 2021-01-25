@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
 import sys
-import requests
 import P2_csv as CsvEdit
 import P2_misc_funcs as miscFuncs
-from bs4 import BeautifulSoup
 
 
 class PageScraper:
@@ -16,7 +14,7 @@ class PageScraper:
         """
 
         self.link = link_page
-        self.soup = BeautifulSoup(requests.get(link_page).content, 'html.parser')
+        self.soup = miscFuncs.get_book_soup(link_page)
         self.title = self.find_title()
         self.description = self.find_desc()
         self.UPC,\
@@ -31,9 +29,9 @@ class PageScraper:
         """
         :return: Le titre du livre
         """
-
-        title = self.soup.find(class_='col-sm-6 product_main')
-        return title.find('h1').text
+        soup_title = self.soup.find(class_='col-sm-6 product_main')
+        title = soup_title.find('h1').text
+        return title
 
     def find_desc(self):
         """
@@ -118,8 +116,13 @@ def main(argv):
     Ecrit toutes les informations du livre dans un fichier
     CSV : /books/<titrelivre.csv>
     """
-
-    new_page = PageScraper(argv[0])
+    try:
+        page = argv[0]
+    except IndexError:
+        print("Vous devez spécifier un lien de livre"
+              " sur http://books.toscrape.com")
+        sys.exit(1)
+    new_page = PageScraper(page)
     CsvEdit.book_csv_init(new_page.title, new_page.get_all())
     
     

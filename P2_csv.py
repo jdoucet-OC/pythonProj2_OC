@@ -26,7 +26,7 @@ def book_csv_init(book, tab):
             writer.writerow(dictcomp)
         file.close()
     except OSError as err:
-        print("OS error: {0}".format(err))
+        print(f"OS error: {err}")
 
 
 def csv_init(category):
@@ -46,7 +46,7 @@ def csv_init(category):
             writer.writeheader()
         file.close
     except OSError as err:
-        print("OS error: {0}".format(err))
+        print(f"OS error: {err}")
 
 
 def csv_save(tab, category):

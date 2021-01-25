@@ -27,7 +27,7 @@ def main():
         if not os.path.exists('images'):
             os.makedirs('images')
     except OSError as err:
-        print("OS error: {0}".format(err))
+        print(f"OS error: {err}")
     for link in all_csv_files:
         df = pd.read_csv(link, usecols=col_list)
         local_links = (df["image_url"])

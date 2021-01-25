@@ -57,7 +57,7 @@ def get_book_soup(link):
         print('Lien vers livre invalide, veuillez choisir un livre sur'
               ' http://books.toscrape.com/index.html et copiez le lien'
               ' tel que : python P2_book.py <lienLivre>')
-        sys.exit(0)
+        sys.exit(1)
     return soupe
 
 
@@ -77,8 +77,20 @@ def get_cat_soup(link):
               ' catégorie sur http://books.toscrape.com/index.html'
               ' et copiez le lien tel que : '
               ' python P2_book.py <lienCategory>')
-        sys.exit(0)
+        sys.exit(1)
     return soupe
 
+
+def get_site_sop():
+    """
+    :return: Retourne l'objet BeautifulSoup contenant
+     la liste des catégories
+    """
+    webpage = requests.get('http://books.toscrape.com/')
+    webpage.raise_for_status()
+    soup = BeautifulSoup(webpage.content, 'html.parser')
+    soup2 = soup.find('ul', class_='nav nav-list')
+    soup3 = soup2.find_all('a')
+    return soup3
 
 

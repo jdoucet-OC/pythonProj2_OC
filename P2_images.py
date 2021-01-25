@@ -23,8 +23,11 @@ def main():
                 "price_including_tax", "price_excluding_tax", "number_available",
                 "category", "review_rating", "image_url"]
     ii = 1
-    if not os.path.exists('images'):
-        os.makedirs('images')
+    try:
+        if not os.path.exists('images'):
+            os.makedirs('images')
+    except OSError as err:
+        print("OS error: {0}".format(err))
     for link in all_csv_files:
         df = pd.read_csv(link, usecols=col_list)
         local_links = (df["image_url"])

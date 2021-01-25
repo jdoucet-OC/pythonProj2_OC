@@ -11,20 +11,22 @@ def book_csv_init(book, tab):
     :param tab: Tableau des attributs du livre
     :return:Créer et édite le fichier CSV du livre
     """
-
-    if not os.path.exists('books'):
-        os.makedirs('books')
-    title = re.sub(r'[^A-Za-z0-9]', ' ', book)
-    with open(f'books/{title}.csv', 'w', encoding="utf-8", newline='') as file:
-        fields = ["product_page_url", "universal_ product_code (upc)", "title",
-                  "product_description", "price_including_tax", "price_excluding_tax",
-                  "number_available", "category", "review_rating", "image_url"]
-        writer = csv.DictWriter(
-            file, fieldnames=fields)
-        writer.writeheader()
-        dictcomp = {fields[i]: tab[i] for i in range(len(fields))}
-        writer.writerow(dictcomp)
-    file.close()
+    try:
+        if not os.path.exists('books'):
+            os.makedirs('books')
+        title = re.sub(r'[^A-Za-z0-9]', ' ', book)
+        with open(f'books/{title}.csv', 'w', encoding="utf-8", newline='') as file:
+            fields = ["product_page_url", "universal_ product_code (upc)", "title",
+                      "product_description", "price_including_tax", "price_excluding_tax",
+                      "number_available", "category", "review_rating", "image_url"]
+            writer = csv.DictWriter(
+                file, fieldnames=fields)
+            writer.writeheader()
+            dictcomp = {fields[i]: tab[i] for i in range(len(fields))}
+            writer.writerow(dictcomp)
+        file.close()
+    except OSError as err:
+        print("OS error: {0}".format(err))
 
 
 def csv_init(category):
@@ -33,16 +35,18 @@ def csv_init(category):
     :return: créé un fichier CSV de la catégorie, avec
         ses entêtes
     """
-
-    if not os.path.exists('category'):
-        os.makedirs('category')
-    with open(f'category/{category}.csv', 'w', encoding="utf-8", newline='') as file:
-        writer = csv.DictWriter(
-            file, fieldnames=["product_page_url", "universal_ product_code (upc)", "title",
-                              "product_description", "price_including_tax", "price_excluding_tax",
-                              "number_available", "category", "review_rating", "image_url"])
-        writer.writeheader()
-    file.close
+    try:
+        if not os.path.exists('category'):
+            os.makedirs('category')
+        with open(f'category/{category}.csv', 'w', encoding="utf-8", newline='') as file:
+            writer = csv.DictWriter(
+                file, fieldnames=["product_page_url", "universal_ product_code (upc)", "title",
+                                  "product_description", "price_including_tax", "price_excluding_tax",
+                                  "number_available", "category", "review_rating", "image_url"])
+            writer.writeheader()
+        file.close
+    except OSError as err:
+        print("OS error: {0}".format(err))
 
 
 def csv_save(tab, category):

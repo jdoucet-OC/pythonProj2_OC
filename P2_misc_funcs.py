@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-import requests
+
 import sys
+import requests
 from bs4 import BeautifulSoup
 
 
@@ -81,7 +82,7 @@ def get_cat_soup(link):
     return soupe
 
 
-def get_site_sop():
+def get_site_soup():
     """
     :return: Retourne l'objet BeautifulSoup contenant
      la liste des catégories

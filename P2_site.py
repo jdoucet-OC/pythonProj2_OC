@@ -10,7 +10,7 @@ def main():
         fichier CSV par catégorie
     """
 
-    soup = MiscFuncs.get_site_sop()
+    soup = MiscFuncs.get_site_soup()
     link = "http://books.toscrape.com/"
     linklist = []
     for item in soup:
